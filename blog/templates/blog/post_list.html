@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>El Blog</title>
-  </head>
-  <body>
-    <div>
-      <h1>Bienvenido a mi blog</h1>
-      <p>Este es un blog de lo mas <em>hilarante</em></p>
-    </div>
-    {% for post in posts %}
-      <div>
-        <p> Publicado: {{post.published_date}}</p>
-        <h2><a href="">{{post.title}}</a></h2>
-        <p>{{post.text|linebreaksbr}}</p>
+{%extends 'blog/base.html' %}
+
+{% block content %}
+  {% for post in posts %}
+    <div class="post">
+      <div class="date">
+        <p>publicado: {{ post.published_date }}</p>
       </div>
-    {% endfor %}
-  </body>
-</html>
+      <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+      <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+  {% endfor %}
+{% endblock %}
