@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h2>Nueva publicacion</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        <!--lo que esta ente {} es para que el formulario sea seguro -->
+        {{ form.as_p}} 
+        <!-- muestra el formulario -->
+        <button type="submit" class="save btn btn-default">Publicar</button>
+    </form>
+
+{% endblock %}

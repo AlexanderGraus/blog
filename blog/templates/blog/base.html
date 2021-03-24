@@ -10,12 +10,15 @@
 
 <body>
     <div class="page-header">
-        <h1>Bienvenido a mi blog</h1>
-        <p>Este es un blog de lo mas <em>hilarante</em></p>
+      {% if user.is_authenticated %}
+        <a href="{% url 'post_new' %}" class="top-menu"><span>Publicar</span></a>
+      {% endif %}
+      <h1><a href="/">Bienvenido a mi blog</a></h1>
+      <p>Este es un blog de lo mas <em>hilarante</em></p>
     </div>
     <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-8">
             {% block content %}
             {% endblock %}
             </div>
