@@ -1,9 +1,8 @@
-from django.shortcuts import render
 from django.utils import timezone
 from .models import Post
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import PostForm
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -16,6 +15,7 @@ def post_detail(request,pk): #la variable se tiene que llamar exactamente pk por
     return render(request,'blog/post_detail.html',{'post':post})
     # mando a renderizar la vista y le envio el post
 
+@login_required
 def post_new(request):
     if request.method == 'POST':
         # significa que ya se envio la informacion del formulario a traves de post
@@ -35,6 +35,7 @@ def post_new(request):
         form = PostForm()
     return render(request,'blog/post_edit.html',{'form':form})
 
+@login_required
 def post_edit(request,pk):
     post = get_object_or_404(Post, pk= pk)
     # busco el post original en la BD
@@ -52,16 +53,19 @@ def post_edit(request,pk):
             return redirect('post_detail',pk = post.pk)
     return render(request,'blog/post_edit.html',{'form':form})
 
+@login_required
 def post_draft_list(request):
     posts = Post.objects.filter(published_date__isnull = True).order_by('created_date')
     # toma los posts no publicados
     return render(request,'blog/post_draft_list.html',{'posts':posts})
 
+@login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
     return redirect('post_detail', pk=pk)
 
+@login_required
 def post_remove(request, pk):
     get_object_or_404(Post,pk=pk).delete()
     return redirect('post_list')
