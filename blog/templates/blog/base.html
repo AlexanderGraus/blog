@@ -17,6 +17,9 @@
       {% if user.is_authenticated %}
         <a href="{% url 'post_new' %}"><button type="button" class="btn btn-primary">Escribir post</button></a>
         <a href="{% url 'post_draft_list' %}"><button type="button" class="btn btn-secondary">Ver borradores</button></a>
+        <p class="top-menu" style="color: black;">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+      {%else%}
+      <a href="{% url 'login' %}"><button type="button" class="btn btn-primary">Login</button></a>
       {% endif %}
       <div class="row">
         <div class="col-md-8">
