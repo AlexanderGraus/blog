@@ -10,13 +10,14 @@
 
 <body>
     <div class="page-header">
-      {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu"><span>Publicar</span></a>
-      {% endif %}
       <h1><a href="/">Bienvenido a mi blog</a></h1>
       <p>Este es un blog de lo mas <em>hilarante</em></p>
     </div>
     <div class="content container">
+      {% if user.is_authenticated %}
+        <a href="{% url 'post_new' %}"><button type="button" class="btn btn-primary">Escribir post</button></a>
+        <a href="{% url 'post_draft_list' %}"><button type="button" class="btn btn-secondary">Ver borradores</button></a>
+      {% endif %}
       <div class="row">
         <div class="col-md-8">
             {% block content %}

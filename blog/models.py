@@ -11,7 +11,8 @@ class Post(models.Model):
     published_date = models.DateTimeField(
             blank=True, null=True)
 
-    def publish(self):
+    #funcion que vamos a usar cuando queramos publicar un post ya creado
+    def publish(self): 
         self.published_date = timezone.now()
         self.save()
 
