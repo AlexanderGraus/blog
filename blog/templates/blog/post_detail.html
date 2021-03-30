@@ -18,4 +18,23 @@
             {% endif %}
         {% endif %}
     </div>
+    <hr>
+    <a class="btn btn-outline-primary" href="{% url 'add_comment_to_post' pk=post.pk %}">Agregar comentario</a>
+    {% for comment in post.comments.all %}
+        {% if user.is_authenticated or comment.approved_comment %}
+            <div class="comment">
+                <div class="date">
+                    {{comment.created_date}}
+                    {% if not comment.approved_comment %}
+                        <a href="{% url 'comment_remove' pk=comment.pk%}" class="btn btn-outline-primary">Eliminar</a>
+                        <a href="{% url 'comment_approve' pk=comment.pk%}" class="btn btn-outline-primary">Aprobar</a>
+                    {% endif %}
+                </div>
+                <strong>{{comment.author}}</strong>
+                <p>{{comment.text|linebreaks}}</p>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>No hay comentarios</p>
+    {% endfor %}
 {% endblock %}

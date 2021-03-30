@@ -1,7 +1,7 @@
 from django.utils import timezone
-from .models import Post
+from .models import Comment, Post
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import PostForm
+from .forms import CommentForm, PostForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -69,3 +69,31 @@ def post_publish(request, pk):
 def post_remove(request, pk):
     get_object_or_404(Post,pk=pk).delete()
     return redirect('post_list')
+
+def add_comment_to_post(request, pk):
+    # primero obtengo el post al cual se va a comentar
+    post = get_object_or_404(Post, pk=pk)
+    # en caso de que el usuario este intentando enviar un comentario
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            # que todavia no guarde el coment, tengo que adjuntarle un post
+            comment.post = post
+            comment.save()
+            return redirect('post_detail',pk = post.pk)
+    else:
+        form = CommentForm()
+    return render(request,'blog/add_comment_to_post.html',{'form': form})
+
+@login_required
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    comment.approve()
+    return redirect('post_detail',pk=comment.post.pk)
+
+@login_required
+def comment_remove(request,pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    comment.delete()
+    return redirect('post_detail',pk=comment.post.pk)
