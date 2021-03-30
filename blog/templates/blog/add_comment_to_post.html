@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Nuevo Comentario</h1>
     <form method="POST" class="post-form" 
-    onsubmit="return alert('Gracias por enviar tu comentario! El mismo sera revisado por un moderar antes de publicarlo');">{% csrf_token%}
+    onsubmit="return alert('Gracias por enviar tu comentario! El mismo sera revisado por un moderador antes de publicarse');">{% csrf_token%}
         {{form.as_p}}
         <button type="submit" class="save btn btn-default">Enviar</button>
     </form>
